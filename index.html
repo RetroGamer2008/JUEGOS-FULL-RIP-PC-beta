@@ -990,8 +990,8 @@
         function verificarPassword() {
             var pass = document.getElementById('pass-input').value;
             if (pass === 'S0n1cr4ck_Tub1e_25') {
-                alert("¡ACCESO CONCEDIDO! Bienvenido a la zona VIP de la scene...");
-                // Aquí más adelante programaremos para que cargue la lista secreta de juegos
+                // Redirige al usuario a un nuevo archivo HTML
+                window.location.href = "sector_vip.html"; 
             } else {
                 document.getElementById('msg-error-pass').style.display = 'block';
                 setTimeout(function() {
