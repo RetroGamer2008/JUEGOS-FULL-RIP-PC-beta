@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>/// ÁREA RESTRINGIDA - 2008 ///</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+            cursor: url('https://cur.cursors-4u.net/windows/win-2/win22.cur'), auto !important;
+            position: relative;
+        }
+
+        /* Movimiento hacia la izquierda a 12 fps */
+        @keyframes scroll-left {
+            0% { background-position: 0 0; }
+            100% { background-position: -120px 0; }
+        }
+
+        /* Fondo de ojos con transición suave de opacidad controlada por JS/CSS */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.pinimg.com/originals/bb/2f/b5/bb2fb57e65c333bfe00da2709e6f66a6.gif');
+            background-repeat: repeat;
+            background-size: 120px; 
+            opacity: 0; /* Inicia en 0 */
+            z-index: -1;
+            animation: scroll-left 3s steps(12, end) infinite, bg-fps 2.5s steps(10, end) infinite;
+            transition: opacity 0.3s linear;
+        }
+
+        @keyframes bg-fps {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1); }
+        }
+
+        /* Botón oculto inicialmente desactivado e invisible */
+        #hidden-secret-btn {
+            position: fixed;
+            top: 2px;
+            right: 5px;
+            background: transparent;
+            color: transparent; 
+            border: none;
+            font-size: 10px;
+            cursor: default;
+            pointer-events: none; 
+            z-index: 9999;
+            transition: color 0.2s;
+        }
+
+        #hidden-secret-btn.active {
+            color: #050505;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        #hidden-secret-btn.active:hover {
+            color: #333333;
+        }
+
+        .screen-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        #loader-wrapper {
+            transition: transform 3s steps(12, end), opacity 3s steps(12, end);
+            z-index: 1;
+        }
+
+        #loader-container {
+            width: 350px;
+            height: 25px;
+            border: 2px solid #FF0000;
+            background: #000000;
+            padding: 2px;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px #FF0000;
+            display: block;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #FF0000;
+        }
+
+        @keyframes strict-shake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-3px, 1px); }
+            50% { transform: translate(3px, -1px); }
+            75% { transform: translate(-1px, 2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .shake-effect {
+            animation: strict-shake 0.08s infinite;
+        }
+
+        .fall-straight-down {
+            transform: translateY(100vh);
+            opacity: 0;
+        }
+
+        #secret-text {
+            display: none;
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+            color: #FF0000;
+            text-shadow: 2px 2px #330000;
+            letter-spacing: 1px;
+            font-weight: bold;
+            border: 1px dashed #FF0000;
+            padding: 20px;
+            background: rgba(17, 0, 0, 0.9);
+            box-shadow: 0 0 15px #FF0000;
+            max-width: 500px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 7s steps(12, end);
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #111111;
+            color: #00FFFF;
+            border: 2px outset #00FFFF;
+            padding: 8px 15px;
+            font-family: "Courier New", monospace;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: none;
+            opacity: 0;
+            z-index: 2;
+            transition: opacity 1s steps(12, end), background-color 0.2s, color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #00FFFF;
+            color: #000000;
+            animation: strict-shake 0.08s infinite;
+        }
+
+        #chain-section {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #chain-wrapper {
+            position: relative;
+            width: 180px;
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        #chain-element {
+            width: 180px;
+            height: auto;
+            cursor: pointer;
+            user-select: none;
+            transform-origin: 50% 10.5%; 
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.4));
+            transition: filter 0.2s;
+        }
+        #chain-element:hover {
+            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.8));
+        }
+
+        #run-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #220000;
+            color: #FF0000;
+            border: 1px solid #FF0000;
+            padding: 8px 15px;
+            font-family: "Courier New", monospace;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.06;
+            z-index: 20;
+            transition: opacity 0.2s;
+        }
+        #run-button:hover {
+            opacity: 0.5;
+            animation: strict-shake 0.08s infinite;
+        }
+
+        .blink {
+            animation: blinker 1s steps(12, end) infinite;
+        }
+        @keyframes blinker { 
+            0%, 50% { opacity: 1; } 
+            50.01%, 100% { opacity: 0; } 
+        }
+    </style>
+</head>
+<body>
+
+    <button id="hidden-secret-btn" onclick="triggerSecretLoad()">𓁼</button>
+
+    <div class="screen-container" id="main-screen">
+        <div id="loader-wrapper">
+            <div id="loader-container">
+                <div id="progress-bar"></div>
+            </div>
+            
+            <div id="estado-carga" style="color: #FF0000; font-size: 11px; margin-top: 10px;" class="blink">
+                [ DESENCRIPTANDO ARCHIVOS DEL SERVIDOR... ]
+            </div>
+        </div>
+
+        <div id="secret-text">Algunas cosas toman su tiempo, y tu eres muy curioso para estar aqui... :)</div>
+        <a href="https://retrogamer2008.github.io/JUEGOS-FULL-RIP-PC-beta/" class="back-button" id="backBtn">&lt;&lt; VOLVER AL INICIO &gt;&gt;</a>
+    </div>
+
+    <div id="chain-section">
+        <div id="chain-wrapper">
+            <img id="chain-element" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAGZUlEQVR4nO1bW3BU1xWu317bPT3c3U2TSRoB83pD0tB4YmMYR7AZw4Fj26gTpxmJt/k27afbNl5p0jTNaWzHzfEky9T65u2bNl5p1pWxtmNj15LhQhLGEgq1tKPtUbs7vbfuP2vvdDvZ7u6e2L+kZ3sf7t57znfvXutvL4B/a6S4tT+36WvWfV1Zq65i696s/vqvLwAQb98C4K/86rZJ1v17LwDgP9t31g1H/94v570JAHh9AIB39695qN2mP72n178BwPt1ALw25Jtf//Xq7+oA6N0z8I0P9F/uH3hY0hLALwEAn73XF7o7X/s+A08PQLx6G319n+h1Vv/25J56/R8A375/AEAv2+nN8qEPhh6G+/a7m/2jV9fXj9+d6K01B05YlAByXf8r539hQ/1L4B3L/vQ5cO6u3+8z7A+AP3uXvA5o606+79L3qV/tXwW36+9N4A0v8r1qT5Nq1QnJ+33L4C7z5NqfF+Yq7Ztq7X//22e2+vN29/9wG3p/5aNf8eE0q111bL717O6N4y31bM3tJgR9u2/HjV8+cO2tP7cOPp7a6tL8q8o6s114E1H1bJ89qX483YtJg3619v/a2y8L/wW/8A31v8b/YdF81zR/T66+uM2u/T5q+e3q0+5ZJ3eC7b31u98b9s1N9a67a03Wk483pT/P1+j8bO203t/9b8H0r5u1Zg26r8X032bX33Zg3X8Y234v7H3tC9M4+t07Ztq17GfLg8W2r0f5450821183227.png" alt="383 sin título" onclick="applyImpulse()">
+        </div>
+        <button id="run-button" onclick="returnToMainScreen()">correr</button>
+    </div>
+
+    <script>
+        const bgStyle = document.createElement('style');
+        document.head.appendChild(bgStyle);
+        function setBgOpacity(val) {
+            bgStyle.innerHTML = `body::before { opacity: ${val} !important; }`;
+        }
+
+        setTimeout(() => {
+            startMainLoader();
+        }, 5000);
+
+        function startMainLoader() {
+            const progressBar = document.getElementById('progress-bar');
+            const loaderWrapper = document.getElementById('loader-wrapper');
+            const estadoCarga = document.getElementById('estado-carga');
+            const secretText = document.getElementById('secret-text');
+            const backBtn = document.getElementById('backBtn');
+            const secretBtn = document.getElementById('hidden-secret-btn');
+
+            // Duración original lenta restaurada (entre 30 y 40 segundos)
+            const totalDuration = Math.random() * (40000 - 30000) + 30000; 
+            const stepsCount = 12;
+            const stepTime = totalDuration / stepsCount;
+            
+            let currentStep = 0;
+            const styleTag = document.createElement('style');
+            document.head.appendChild(styleTag);
+
+            const interval = setInterval(() => {
+                currentStep++;
+                let percentage = (currentStep / stepsCount) * 99;
+                progressBar.style.width = percentage + '%';
+
+                let bgOpacity = (percentage / 99) * 0.25;
+                styleTag.innerHTML = `body::before { opacity: ${bgOpacity}; }`;
+
+                if (currentStep >= stepsCount) {
+                    clearInterval(interval);
+                    estadoCarga.innerHTML = "[ ERROR CRÍTICO: FALLO DE SISTEMA ]";
+                    loaderWrapper.classList.add('shake-effect');
+
+                    setTimeout(() => {
+                        loaderWrapper.classList.remove('shake-effect');
+                        loaderWrapper.classList.add('fall-straight-down');
+
+                        setTimeout(() => {
+                            loaderWrapper.style.display = 'none';
+                            secretText.style.display = 'block';
+                            backBtn.style.display = 'block';
+                            secretBtn.classList.add('active');
+
+                            setTimeout(() => {
+                                secretText.style.opacity = '1';
+                                backBtn.style.opacity = '1';
+                            }, 50);
+
+                        }, 3000);
+                    }, 2000);
+                }
+            }, stepTime);
+        }
+
+        function triggerSecretLoad() {
+            const secretBtn = document.getElementById('hidden-secret-btn');
+            if (!secretBtn.classList.contains('active') || secretBtn.dataset.clicked) return;
+            secretBtn.dataset.clicked = "true";
+
+            const mainScreen = document.getElementById('main-screen');
+            mainScreen.innerHTML = `
+                <div id="loader-wrapper-sec">
+                    <div id="loader-container">
+                        <div id="progress-bar-sec" style="width: 0%; height: 100%; background-color: #FF0000;"></div>
+                    </div>
+                    <div style="color: #FF0000; font-size: 11px; margin-top: 10px;" class="blink">
+                        [ ACCEDIENDO AL NÚCLEO OCULTO... ]
+                    </div>
+                </div>
+            `;
+
+            let secStep = 0;
+            let currentOpacity = 0.25; 
+            const totalSteps = 12;
+
+            const secInterval = setInterval(() => {
+                secStep++;
+                let p = (secStep / totalSteps) * 100;
+                const barSec = document.getElementById('progress-bar-sec');
+                if(barSec) barSec.style.width = p + '%';
+
+                currentOpacity -= (0.25 / totalSteps);
+                if (currentOpacity < 0) currentOpacity = 0;
+                setBgOpacity(currentOpacity);
+
+                if(secStep >= totalSteps) {
+                    clearInterval(secInterval);
+                    setBgOpacity(0);
+
+                    mainScreen.style.display = 'none';
+                    document.getElementById('chain-section').style.display = 'flex';
+                    requestAnimationFrame(updatePendulumPhysics);
+                }
+            }, 250);
+        }
+
+        function returnToMainScreen() {
+            document.getElementById('chain-section').style.display = 'none';
+            const mainScreen = document.getElementById('main-screen');
+            
+            mainScreen.innerHTML = `
+                <div id="loader-wrapper-back">
+                    <div id="loader-container">
+                        <div id="progress-bar-back" style="width: 0%; height: 100%; background-color: #FF0000;"></div>
+                    </div>
+                    <div style="color: #FF0000; font-size: 11px; margin-top: 10px;" class="blink">
+                        [ RETORNANDO AL MENÚ PRINCIPAL... ]
+                    </div>
+                </div>
+            `;
+            mainScreen.style.display = 'flex';
+
+            let backStep = 0;
+            let currentOpacity = 0; 
+            const totalSteps = 12;
+
+            const backInterval = setInterval(() => {
+                backStep++;
+                let p = (backStep / totalSteps) * 100;
+                const barBack = document.getElementById('progress-bar-back');
+                if(barBack) barBack.style.width = p + '%';
+
+                currentOpacity += (0.25 / totalSteps);
+                if (currentOpacity > 0.25) currentOpacity = 0.25;
+                setBgOpacity(currentOpacity);
+
+                if(backStep >= totalSteps) {
+                    clearInterval(backInterval);
+                    setBgOpacity(0.25);
+
+                    mainScreen.innerHTML = `
+                        <div id="secret-text" style="display: block; opacity: 1;">Algunas cosas toman su tiempo, y tu eres muy curioso para estar aqui... :)</div>
+                        <a href="https://retrogamer2008.github.io/JUEGOS-FULL-RIP-PC-beta/" class="back-button" id="backBtn" style="display: block; opacity: 1;">&lt;&lt; VOLVER AL INICIO &gt;&gt;</a>
+                    `;
+
+                    const secretBtn = document.getElementById('hidden-secret-btn');
+                    secretBtn.classList.add('active');
+                }
+            }, 250);
+        }
+
+        let angle = 0;
+        let angularVelocity = 0;
+        let gravity = 0.8;
+        let damping = 0.98;
+
+        function applyImpulse() {
+            angularVelocity += (Math.random() > 0.5 ? 0.18 : -0.18);
+        }
+
+        function updatePendulumPhysics() {
+            const chainEl = document.getElementById('chain-element');
+            if (chainEl && document.getElementById('chain-section').style.display === 'flex') {
+                let angularAcceleration = (-gravity / 15) * Math.sin(angle);
+                
+                angularVelocity += angularAcceleration;
+                angularVelocity *= damping;
+                angle += angularVelocity;
+
+                let angleDeg = angle * (180 / Math.PI);
+                chainEl.style.transform = `rotate(${angleDeg}deg)`;
+                requestAnimationFrame(updatePendulumPhysics);
+            }
+        }
+    </script>
+
+</body>
+</html>
