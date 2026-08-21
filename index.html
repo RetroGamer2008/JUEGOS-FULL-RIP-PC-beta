@@ -166,7 +166,6 @@
             font-weight: bold; 
         }
 
-        /* ANIMACIONES A 12 FPS (ESTILO INTERNET ANTIGUO / STEPS) */
         .blink {
             animation: blinker 1s steps(12, end) infinite;
             color: #FF0000;
@@ -177,7 +176,6 @@
             50.01%, 100% { opacity: 0; } 
         }
         
-        /* TICKER / MARQUEE DE 12 FPS PARA LA GALERÍA */
         .ticker-wrap {
             overflow: hidden;
             width: 100%;
@@ -252,12 +250,56 @@
             text-decoration: none;
             cursor: pointer;
         }
-
-        .cerrar-modal:hover {
-            color: #FFFF00;
-            border-color: #FFFF00;
-        }
+        .cerrar-modal:hover { color: #FFFF00; border-color: #FFFF00; }
         
+        /* VENTANA MODAL DE DESCARGA PERFECTAMENTE CENTRADA */
+        .modal-descarga {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+        }
+        .ventana-dl-box {
+            position: relative;
+            width: 580px;
+            background-color: #0b0b0b;
+            border: 3px solid #00FF00;
+            padding: 20px;
+            box-shadow: 0 0 25px #00FF00;
+            text-align: center;
+            font-family: "Courier New", monospace;
+            box-sizing: border-box;
+        }
+        .dl-img-portada {
+            width: 120px;
+            height: 150px;
+            border: 2px solid #00FF00;
+            object-fit: cover;
+            margin: 10px 0;
+        }
+        .dl-cerrar-cruz {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #FF0000;
+            border: 2px solid #FF0000;
+            background: #000;
+            width: 35px;
+            height: 35px;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .dl-cerrar-cruz:hover { background: #FF0000; color: #000; }
+
         @keyframes zoom {
             from { transform: scale(0); } 
             to { transform: scale(1); }
@@ -270,7 +312,6 @@
         ¡¡BIENVENIDOS A JUEGOS-FULL-RIP-PC!! TODOS LOS JUEGOS SUBIDOS POR MI A MEGAUPLOAD Y RAPIDSHARE (SIN VIRUS) -- SI SE CAEN LOS LINKS AVISEN EN EL CHATBOX --
     </marquee>
     
-    <!-- REPRODUCTOR DE MÚSICA -->
     <div class="winamp-player">
         <div style="color: #00FF00; font-family: 'Courier New', monospace; font-size: 11px; width: 300px; margin: 0 auto 5px auto; background: #000; border: 1px solid #004400; overflow: hidden; white-space: nowrap;">
             <div style="display: inline-block; animation: tickerAnim 8s steps(96, end) infinite;">
@@ -295,7 +336,6 @@
     <br />
 
     <div class="wrapper">
-        <!-- MENÚ LATERAL IZQUIERDO -->
         <div class="sidebar">
             <div class="menu-title">Menu</div>
 
@@ -318,10 +358,8 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR PRINCIPAL -->
         <div class="container" id="main-content">
             
-            <!-- PANTALLA DE CARGA RETRO DIAL-UP -->
             <div id="seccion-carga" style="display: none; text-align: center; padding: 80px 20px;">
                 <h2 style="color: #FFFF00; font-family: 'Courier New', monospace;" class="blink">[ ESTABLECIENDO CONEXIÓN DIAL-UP... ]</h2>
                 <p id="texto-velocidad" style="color: #00FF00; font-size: 13px; font-family: 'Courier New', monospace;">Marcando al servidor FTP remoto (Velocidad: 56.4 kbps)...</p>
@@ -331,7 +369,6 @@
                 <p id="texto-estado" style="color: #888888; font-size: 11px;">Descargando paquetes de Megaupload y Rapidshare...</p>
             </div>
 
-            <!-- SECCIÓN 1: INICIO -->
             <div id="seccion-inicio" style="display: block;">
                 <div style="padding: 20px; background: #000; border: 3px double #00FF00; margin-bottom: 20px; text-align: center;">
                     <h1 style="font-family: 'Impact', sans-serif; font-size: 42px; color: #FF0000; text-shadow: 3px 3px #FFFF00, 6px 6px #0000FF; letter-spacing: 3px; margin: 0;">
@@ -356,6 +393,7 @@
                 <div class="ticker-wrap">
                     <div class="ticker-move">
                         <img src="https://i.postimg.cc/76ZhwdZj/379-sin-titulo-20260820022957.jpg" />
+                        <img src="379 sin título_20260820025142.jpg" />
                         <img src="https://i.postimg.cc/fLRyDpbN/379-sin-titulo-20260820024433.jpg" />
                         <img src="https://i.postimg.cc/Gp2916t2/379-sin-titulo-20260820030502.jpg" />
                         <img src="https://i.postimg.cc/3NgxBTS1/379-sin-titulo-20260820030651.jpg" />
@@ -364,6 +402,7 @@
                         <img src="https://i.postimg.cc/YSkffrdP/379-sin-titulo-20260820031030.jpg" />
                         
                         <img src="https://i.postimg.cc/76ZhwdZj/379-sin-titulo-20260820022957.jpg" />
+                        <img src="379 sin título_20260820025142.jpg" />
                         <img src="https://i.postimg.cc/fLRyDpbN/379-sin-titulo-20260820024433.jpg" />
                         <img src="https://i.postimg.cc/Gp2916t2/379-sin-titulo-20260820030502.jpg" />
                         <img src="https://i.postimg.cc/3NgxBTS1/379-sin-titulo-20260820030651.jpg" />
@@ -378,7 +417,6 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 2: LISTA DE JUEGOS -->
             <div id="seccion-juegos" style="display: none;">
                 <div align="center">
                     <h1 style="color: #FF0000; font-family: 'Impact', sans-serif; font-size: 30px; margin: 0;">
@@ -420,8 +458,8 @@
                             <p>Gente les dejo el Left4Dead2 1.0.0c (Version completa). Subí la versión rara censurada q salio en el reino unido con la mano al reves xq decian q la original era ofensiva jaja. Viene con el crack incluido.</p>
                             <p><b>Peso:</b> 980 MB (Super Comprimido KGB Archiver)<br />
                             <b>Pass del RAR:</b> <i>juegos-full-rip-2009</i></p>
-                            <a href="#" class="boton-descarga-mu">DESCARGAR POR MEGAUPLOAD</a> 
-                            <a href="#" class="boton-descarga-rs">PARTE 2 (RAPIDSHARE)</a>
+                            <a href="#" class="boton-descarga-mu" onclick="iniciarSistemaDescarga('Left4Dead2 1.0.0c', 'https://i.postimg.cc/76ZhwdZj/379-sin-titulo-20260820022957.jpg'); return false;">DESCARGAR POR MEGAUPLOAD</a> 
+                            <a href="#" class="boton-descarga-rs" onclick="iniciarSistemaDescarga('Left4Dead2 1.0.0c (Parte 2)', 'https://i.postimg.cc/76ZhwdZj/379-sin-titulo-20260820022957.jpg'); return false;">PARTE 2 (RAPIDSHARE)</a>
                         </td>
                     </tr>
                 </table>
@@ -440,7 +478,7 @@
                             <p><b>GENTE ESTO ES REAL:</b> Filtraron la build alpha oficial que armó el mismísimo Scott Cawthon antes de sacarlo al mercado. Es el juego posta de los animatrónicos en la pizzería. Los gráficos están medios raros y da un miedo tremendo, pero el archivo ejecutable es 100% oficial de él. ¡Pruebenlo antes de que lo borren por copyright!</p>
                             <p><b>Peso:</b> 220 MB (Subido a Megaupload en un solo archivo)<br />
                             <b>Pass del RAR:</b> <i>leak-foros-2008</i></p>
-                            <a href="#" class="boton-descarga-mu">DESCARGAR BREAD_PAPPA_BUILD.EXE (MEGAUPLOAD)</a>
+                            <a href="#" class="boton-descarga-mu" onclick="iniciarSistemaDescarga('Five Nights at Freddy\'s Alpha', 'https://i.postimg.cc/fLRyDpbN/379-sin-titulo-20260820024433.jpg'); return false;">DESCARGAR BREAD_PAPPA_BUILD.EXE (MEGAUPLOAD)</a>
                         </td>
                     </tr>
                 </table>
@@ -454,7 +492,27 @@
                             <h3 style="color: #FFFF00; margin-top: 0;">Plantas vs Zombies 1 FULL + Crack + Trainer (Soles Infinitos)</h3>
                             <p>Juegazo super adictivo, el clásico Plantas vs Zombies 1. Viene con el crack de PopCap y un Trainer hecho por mi para tener soles infinitos y matar a todos los zombis facil.</p>
                             <p><i>Nota: Desactiven el Avast o el Nod32 antes de extraer, el trainer salta como troyano pero es un FALSO POSITIVO, 100% libre de virus se los juro.</i></p>
-                            <a href="#" class="boton-descarga-mu">DESCARGAR POR MEGAUPLOAD</a>
+                            <a href="#" class="boton-descarga-mu" onclick="iniciarSistemaDescarga('Plantas vs Zombies 1 FULL', 'https://i.postimg.cc/Gp2916t2/379-sin-titulo-20260820030502.jpg'); return false;">DESCARGAR POR MEGAUPLOAD</a>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- MINECRAFT 1.7.3 ALPHA (UBICADO DEBAJO DE PLANTAS VS ZOMBIES) -->
+                <table class="juego-tabla-leak" cellspacing="0" cellpadding="5">
+                    <tr>
+                        <td width="150" align="center" valign="top">
+                            <img src="379 sin título_20260820025142.jpg" alt="Minecraft Alpha Cover" class="portada" onclick="abrirModal(this.src)" title="Haz click para ver la imagen completa" />
+                            <br />
+                            <span class="blink">¡¡RETRO LEAK!!</span>
+                        </td>
+                        <td class="descripcion">
+                            <h3 style="color: #FF3333; margin-top: 0;">
+                                [APORTE] Minecraft 1.7.3 Alpha (Versión Clásica Sin Launcher)
+                            </h3>
+                            <p>¡Gente les traigo la gloriosa versión 1.7.3 Alpha de Minecraft! Ideal para recordar los viejos tiempos cuando no había hunger bars ni tantas pavadas. Viene portable y listo para jugar sin cuenta premium ni internet.</p>
+                            <p><b>Peso:</b> 45 MB (Megaupload)<br />
+                            <b>Pass del RAR:</b> <i>minecraft-alpha-2008</i></p>
+                            <a href="#" class="boton-descarga-mu" onclick="iniciarSistemaDescarga('Minecraft 1.7.3 Alpha', '379 sin título_20260820025142.jpg'); return false;">DESCARGAR POR MEGAUPLOAD</a>
                         </td>
                     </tr>
                 </table>
@@ -467,7 +525,7 @@
                         <td class="descripcion">
                             <h3 style="color: #FFFF00; margin-top: 0;">GTA San Andreas PC [RIP] [RIPEO RADIO Y VOCES] [300MB]</h3>
                             <p>El clásico GTA San Andreas modificado para que entre en un solo link. Le saqué la radio y las canciones para que pese re poco. Incluye el CLEO Mod para tener autos de Rápido y Furioso y mod de Loquendo.</p>
-                            <a href="#" class="boton-descarga-rs">DESCARGAR POR RAPIDSHARE</a>
+                            <a href="#" class="boton-descarga-rs" onclick="iniciarSistemaDescarga('GTA San Andreas PC RIP', 'https://i.postimg.cc/3NgxBTS1/379-sin-titulo-20260820030651.jpg'); return false;">DESCARGAR POR RAPIDSHARE</a>
                         </td>
                     </tr>
                 </table>
@@ -480,7 +538,7 @@
                         <td class="descripcion">
                             <h3 style="color: #FFFF00; margin-top: 0;">Sonic Adventure 1 DX PC [Rip 200MB] [Subido x Mi]</h3>
                             <p>El mejor juego del erizo azul ahora en PC!! Le quite las cinematicas y las voces para que pese menos y se baje rapido. Ideal para cibercafes. Funciona perfecto en Windows XP y Vista sin pedir tarjeta de video potente.</p>
-                            <a href="#" class="boton-descarga-mu">DESCARGAR POR MEGAUPLOAD</a>
+                            <a href="#" class="boton-descarga-mu" onclick="iniciarSistemaDescarga('Sonic Adventure 1 DX PC', 'https://i.postimg.cc/PxXyhXZw/379-sin-titulo-20260820030253.jpg'); return false;">DESCARGAR POR MEGAUPLOAD</a>
                         </td>
                     </tr>
                 </table>
@@ -493,7 +551,7 @@
                         <td class="descripcion">
                             <h3 style="color: #FFFF00; margin-top: 0;">Counter-Strike 1.6 No Steam [v23 Full] [SXB Injected Ready]</h3>
                             <p>El infaltable para jugar en red local o cibercafés. Incluye MasterServer actualizado para buscar servers argentinos y uruguayos online, viene con bots (PODBot) por si no tenés internet y modelos de armas con luces neon.</p>
-                            <a href="#" class="boton-descarga-rs">DESCARGAR POR RAPIDSHARE</a>
+                            <a href="#" class="boton-descarga-rs" onclick="iniciarSistemaDescarga('Counter-Strike 1.6 No Steam', 'https://i.postimg.cc/J0rPMbD4/379-sin-titulo-20260820030833.jpg'); return false;">DESCARGAR POR RAPIDSHARE</a>
                         </td>
                     </tr>
                 </table>
@@ -506,7 +564,7 @@
                         <td class="descripcion">
                             <h3 style="color: #FFFF00; margin-top: 0;">*TOP SECRET* Half-Life 1 BETA Filtrada (Engine Alpha 1997)</h3>
                             <p>ME LO PASÓ UN AMIGO QUE TRABAJABA EN VALVE. Es una alpha rara filtrada del Half Life 1 con monstruos que no salieron en la versión final y armas totalmente distintas. Tiene bugs pero arranca directo sin instalar nada.</p>
-                            <a href="#" class="boton-descarga-mu">DESCARGAR POR MEGAUPLOAD</a>
+                            <a href="#" class="boton-descarga-mu" onclick="iniciarSistemaDescarga('Half-Life 1 BETA Filtrada', 'https://i.postimg.cc/YSkffrdP/379-sin-titulo-20260820031030.jpg'); return false;">DESCARGAR POR MEGAUPLOAD</a>
                         </td>
                     </tr>
                 </table>
@@ -518,7 +576,6 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN NUEVA: CRÉDITOS -->
             <div id="seccion-creditos" style="display: none;">
                 <div align="center">
                     <h1 style="color: #00FF00; font-family: 'Impact', sans-serif; font-size: 32px; margin: 0;">
@@ -529,7 +586,7 @@
 
                 <div style="border: 2px dashed #00FF00; padding: 15px; margin-bottom: 25px; background-color: #002200; color: #CCCCCC; font-family: 'Tahoma'; text-align: justify; font-size: 13px;">
                     <strong>¿DE QUÉ VA ESTA SECCIÓN? [i]</strong><br/><br/>
-                    En esta sección puedes ver quiénes son los creadores y fundadores originales de esta página web, encargados de mantenerla en pie y traer los mejores ripeos. Más abajo también encontrarás a los moderadores oficiales que cuidan el foro y ayudan a la comunidad día a día.
+                    En esta sección puedes ver quiénes son los creadores y fundadores originales de esta página web, encargados de mantenerla en pie y traer los mejores ripeos. Más abajo también encontrarás a los moderadores oficiales y a nuestros colaboradores que ayudan a la comunidad día a día.
                 </div>
 
                 <h3 style="color: #00FFFF; text-align: center; border-bottom: 1px solid #00FFFF; padding-bottom: 5px; margin-bottom: 20px;">
@@ -559,7 +616,7 @@
                     -= MODERADORES OFICIALES =-
                 </h3>
 
-                <table width="100%" style="margin-bottom: 20px; text-align: center;">
+                <table width="100%" style="margin-bottom: 30px; text-align: center;">
                     <tr>
                         <td width="50%" valign="top">
                             <div style="border: 1px dotted #00FF00; background: #001100; padding: 15px; width: 80%; margin: 0 auto;">
@@ -578,12 +635,34 @@
                     </tr>
                 </table>
 
+                <h3 style="color: #00FFFF; text-align: center; border-bottom: 1px solid #00FFFF; padding-bottom: 5px; margin-bottom: 20px;">
+                    -= AYUDANTES Y COLABORADORES =-
+                </h3>
+
+                <table width="100%" style="margin-bottom: 20px; text-align: center;">
+                    <tr>
+                        <td width="50%" valign="top">
+                            <div style="border: 1px dashed #00FF00; background: #001100; padding: 15px; width: 80%; margin: 0 auto;">
+                                <img src="perfil.png" alt="Seedf2001xx" style="width: 70px; height: 70px; border: 1px solid #00FF00; object-fit: cover;" /><br /><br />
+                                <span style="color: #FFFF66; font-weight: bold; font-size: 13px; font-family: 'Courier New', monospace;">Seedf2001xx</span><br />
+                                <span style="color: #00FF00; font-size: 11px;">[Aporte de la música web y algunos juegos]</span>
+                            </div>
+                        </td>
+                        <td width="50%" valign="top">
+                            <div style="border: 1px dashed #00FF00; background: #001100; padding: 15px; width: 80%; margin: 0 auto;">
+                                <img src="perfil.png" alt="_ju4nk_" style="width: 70px; height: 70px; border: 1px solid #00FF00; object-fit: cover;" /><br /><br />
+                                <span style="color: #FFFF66; font-weight: bold; font-size: 13px; font-family: 'Courier New', monospace;">_ju4nk_</span><br />
+                                <span style="color: #00FF00; font-size: 11px;">[Aporte de 2 juegos en la plataforma]</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
                 <div style="text-align: center; margin-top: 25px;">
                     <a href="#" class="boton-descarga-mu" onclick="cambiarSeccion('inicio'); return false;" style="font-size: 14px; padding: 6px 15px;">&lt;&lt; VOLVER AL INICIO &gt;&gt;</a>
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: PÁGINA EN MANTENIMIENTO FALSO CORREGIDA -->
             <div id="seccion-error" style="display: none; text-align: center; padding: 40px 20px;">
                 <h1 style="color: #FFFF00; font-family: 'Impact', sans-serif; font-size: 38px; text-shadow: 2px 2px #000; margin-bottom: 10px;" class="blink">
                     [ PÁGINA EN MANTENIMIENTO ]
@@ -632,10 +711,39 @@
         <img class="modal-content" id="imgModal" />
     </div>
 
+    <!-- VENTANA INTERACTIVA DE DESCARGA -->
+    <div id="modalDescarga" class="modal-descarga">
+        <div class="ventana-dl-box">
+            <div class="dl-cerrar-cruz" onclick="cerrarSistemaDescarga()">&times;</div>
+            <div id="dl-titulo-header" style="color: #FFFF00; font-size: 16px; font-weight: bold; margin-bottom: 10px;">
+                DESCARGANDO: <span id="dl-nombre-juego">Juego</span>
+            </div>
+            
+            <img id="dl-img-portada" src="" class="dl-img-portada" alt="Portada" />
+            
+            <div id="dl-estado-texto" style="color: #00FF00; font-size: 12px; margin: 15px 0 5px 0;">
+                Velocidad: 9.4 KB/s - Recibiendo paquetes...
+            </div>
+            
+            <div style="width: 100%; height: 22px; border: 2px solid #00FF00; background: #000; text-align: left; padding: 2px; box-sizing: border-box;">
+                <div id="dl-barra-progreso" style="width: 0%; height: 100%; background: #00FF00;"></div>
+            </div>
+            
+            <div id="dl-porcentaje-texto" style="color: #FFFF00; font-size: 16px; font-weight: bold; margin: 10px 0;">
+                0%
+            </div>
+
+            <div id="dl-contenedor-error" style="display: none; border: 2px dashed #FF0000; padding: 15px; margin-top: 15px; background: #220000; text-align: center;">
+                <div style="color: #00FF00; font-size: 12px; font-weight: bold; margin-bottom: 10px;">
+                    El servidor se encuentra en mantenimiento. Inténtalo más tarde.
+                </div>
+                <a href="#" class="boton-descarga-mu" onclick="cerrarSistemaDescarga(); return false;" style="font-size: 13px; padding: 6px 15px;">ACEPTAR Y CERRAR</a>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
-        // Función de cambio de sección con lógicas de tiempo dinámicas
         function cambiarSeccion(destino) {
-            // Ocultar todas las secciones primero
             document.getElementById('seccion-inicio').style.display = 'none';
             document.getElementById('seccion-juegos').style.display = 'none';
             document.getElementById('seccion-creditos').style.display = 'none';
@@ -649,35 +757,29 @@
             barra.style.width = '0%';
             loadingDiv.style.display = 'block';
 
-            // Configurar tiempos y textos según el destino
-            var tiempoEspera = 1800; // Por defecto casi 2 segs
+            var tiempoEspera = 1800;
 
             if (destino === 'error') {
-                // Carga de mantenimiento
                 barra.style.transition = 'width 2s steps(20, end)';
                 tiempoEspera = 2000;
                 textoVelocidad.innerText = 'Conectando con consola de mantenimiento...';
                 textoEstado.innerText = 'Cargando aviso del webmaster...';
             } else if (destino === 'creditos') {
-                // Carga de créditos
                 barra.style.transition = 'width 1.2s steps(12, end)';
                 tiempoEspera = 1200;
                 textoVelocidad.innerText = 'Leyendo base de datos de usuarios...';
                 textoEstado.innerText = 'Cargando información del Staff...';
             } else {
-                // Carga normal
                 barra.style.transition = 'width 1.8s steps(18, end)';
                 tiempoEspera = 1800;
                 textoVelocidad.innerText = 'Marcando al servidor FTP remoto (Velocidad: 56.4 kbps)...';
                 textoEstado.innerText = 'Descargando paquetes de Megaupload y Rapidshare...';
             }
 
-            // Iniciar animación de barra
             setTimeout(function() {
                 barra.style.width = '100%';
             }, 50);
 
-            // Mostrar destino final al terminar la carga
             setTimeout(function() {
                 loadingDiv.style.display = 'none';
                 if (destino === 'inicio') {
@@ -692,7 +794,6 @@
             }, tiempoEspera);
         }
 
-        // Visor Modal de Imágenes
         var modal = document.getElementById("visorModal");
         var modalImg = document.getElementById("imgModal");
 
@@ -709,6 +810,60 @@
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        }
+
+        // SISTEMA DE DESCARGA: 20 SEG A 1 MINUTO RANDOM Y AVANCE DE 5 EN 5
+        var intervaloDescarga = null;
+
+        function iniciarSistemaDescarga(nombreJuego, urlPortada) {
+            var ventanaDl = document.getElementById("modalDescarga");
+            var txtJuego = document.getElementById("dl-nombre-juego");
+            var imgPortada = document.getElementById("dl-img-portada");
+            var barraProgreso = document.getElementById("dl-barra-progreso");
+            var txtPorcentaje = document.getElementById("dl-porcentaje-texto");
+            var txtEstado = document.getElementById("dl-estado-texto");
+            var contenedorError = document.getElementById("dl-contenedor-error");
+
+            txtJuego.innerText = nombreJuego;
+            imgPortada.src = urlPortada;
+            
+            barraProgreso.style.width = "0%";
+            barraProgreso.style.backgroundColor = "#00FF00";
+            txtPorcentaje.innerHTML = "0%";
+            txtPorcentaje.style.color = "#FFFF00";
+            txtEstado.style.color = "#00FF00";
+            txtEstado.innerText = "Velocidad: 9.4 KB/s - Recibiendo paquetes...";
+            contenedorError.style.display = "none";
+
+            ventanaDl.style.display = "flex";
+
+            var porcentajeActual = 0;
+
+            if (intervaloDescarga) clearInterval(intervaloDescarga);
+
+            var tiempoTotalMs = Math.floor(Math.random() * (60000 - 20000 + 1)) + 20000;
+            var intervaloTiempo = tiempoTotalMs / 18;
+
+            intervaloDescarga = setInterval(function() {
+                porcentajeActual += 5;
+                if (porcentajeActual <= 90) {
+                    barraProgreso.style.width = porcentajeActual + "%";
+                    txtPorcentaje.innerHTML = porcentajeActual + "%";
+                } else {
+                    clearInterval(intervaloDescarga);
+                    barraProgreso.style.backgroundColor = "#FF0000";
+                    barraProgreso.style.width = "90%";
+                    txtPorcentaje.innerHTML = "90% <span style='color: #FF0000;'>[¡ERROR!]</span>";
+                    txtEstado.style.color = "#FF3333";
+                    txtEstado.innerText = "¡TRAMA DE DATOS CORROMPIDA!";
+                    contenedorError.style.display = "block";
+                }
+            }, intervaloTiempo);
+        }
+
+        function cerrarSistemaDescarga() {
+            if (intervaloDescarga) clearInterval(intervaloDescarga);
+            document.getElementById("modalDescarga").style.display = "none";
         }
     </script>
 </body>
