@@ -363,6 +363,7 @@
 
             <a href="#" class="menu-btn" onclick="cambiarSeccion('creditos'); return false;">[ CRÉDITOS ]</a>
             <a href="#" class="menu-btn" onclick="cambiarSeccion('error'); return false;">[ FORO DESC ]</a>
+            <a href="#" class="menu-btn" onclick="cambiarSeccion('exclusivo'); return false;" style="color: #FF3333;">[ SECTOR EXCLUSIVO ]</a>
 
             <br />
             <div align="center">
@@ -786,6 +787,27 @@
                 </div>
             </div>
 
+            <!-- SECCIÓN SECTOR EXCLUSIVO -->
+            <div id="seccion-exclusivo" style="display: none; text-align: center; padding: 60px 20px;">
+                <h1 style="color: #FF0000; font-family: 'Impact', sans-serif; font-size: 32px;" class="blink">
+                    [ ÁREA RESTRINGIDA - SECTOR EXCLUSIVO ]
+                </h1>
+                <p style="color: #FFFF00; font-size: 14px; font-family: 'Courier New', monospace;">
+                    Solo para miembros de Élite. Ingrese el <b>Password / Pasware</b> para acceder:
+                </p>
+                
+                <div style="border: 2px dashed #00FF00; padding: 30px; background-color: #002200; margin: 30px auto; width: 60%; font-family: 'Courier New', monospace; box-shadow: 0 0 15px #FF0000;">
+                    <label for="pass-input" style="color: #00FFFF; font-weight: bold; font-size: 16px;">Password: </label>
+                    <input type="password" id="pass-input" style="background: #000; color: #00FF00; border: 1px solid #00FF00; padding: 5px; font-family: 'Courier New', monospace; font-size: 16px; margin-left: 10px; width: 200px;" />
+                    <br><br>
+                    <button onclick="verificarPassword()" style="background: #111; color: #FF0000; border: 2px solid #FF0000; padding: 8px 20px; font-weight: bold; cursor: pointer;">[ ENTRAR AL SECTOR ]</button>
+                </div>
+                
+                <p id="msg-error-pass" style="color: #FF0000; font-weight: bold; display: none; font-size: 18px;" class="blink">
+                    [!] ERROR: CONTRASEÑA INCORRECTA [!]
+                </p>
+            </div>
+
             <div id="seccion-error" style="display: none; text-align: center; padding: 40px 20px;">
                 <h1 style="color: #FFFF00; font-family: 'Impact', sans-serif; font-size: 38px; text-shadow: 2px 2px #000; margin-bottom: 10px;" class="blink">
                     [ PÁGINA EN MANTENIMIENTO ]
@@ -872,6 +894,7 @@
             document.getElementById('seccion-juegosweb').style.display = 'none';
             document.getElementById('seccion-juegoactivo').style.display = 'none';
             document.getElementById('seccion-creditos').style.display = 'none';
+            document.getElementById('seccion-exclusivo').style.display = 'none';
             document.getElementById('seccion-error').style.display = 'none';
             
             var loadingDiv = document.getElementById('seccion-carga');
@@ -899,6 +922,11 @@
                 tiempoEspera = 1500;
                 textoVelocidad.innerText = 'Conectando al servidor web interactivo (Puerto 80)...';
                 textoEstado.innerText = 'Cargando listado de juegos web singleplayer...';
+            } else if (destino === 'exclusivo') {
+                barra.style.transition = 'width 1.5s steps(15, end)';
+                tiempoEspera = 1500;
+                textoVelocidad.innerText = 'Cifrando conexión P2P (AES-256)...';
+                textoEstado.innerText = 'Conectando con el servidor privado VIP...';
             } else {
                 barra.style.transition = 'width 1.8s steps(18, end)';
                 tiempoEspera = 1800;
@@ -920,6 +948,8 @@
                     document.getElementById('seccion-juegosweb').style.display = 'block';
                 } else if (destino === 'creditos') {
                     document.getElementById('seccion-creditos').style.display = 'block';
+                } else if (destino === 'exclusivo') {
+                    document.getElementById('seccion-exclusivo').style.display = 'block';
                 } else if (destino === 'error') {
                     document.getElementById('seccion-error').style.display = 'block';
                 }
@@ -932,6 +962,7 @@
             document.getElementById('seccion-juegosweb').style.display = 'none';
             document.getElementById('seccion-juegoactivo').style.display = 'none';
             document.getElementById('seccion-creditos').style.display = 'none';
+            document.getElementById('seccion-exclusivo').style.display = 'none';
             document.getElementById('seccion-error').style.display = 'none';
 
             var loadingDiv = document.getElementById('seccion-carga');
@@ -954,6 +985,21 @@
                 loadingDiv.style.display = 'none';
                 document.getElementById('seccion-juegoactivo').style.display = 'block';
             }, 2000);
+        }
+
+        function verificarPassword() {
+            var pass = document.getElementById('pass-input').value;
+            if (pass === 'S0n1cr4ck_Tub1e_25') {
+                alert("¡ACCESO CONCEDIDO! Bienvenido a la zona VIP de la scene...");
+                // Aquí más adelante programaremos para que cargue la lista secreta de juegos
+            } else {
+                document.getElementById('msg-error-pass').style.display = 'block';
+                setTimeout(function() {
+                    document.getElementById('msg-error-pass').style.display = 'none';
+                }, 2500);
+            }
+            // Limpia el input despues de intentar
+            document.getElementById('pass-input').value = "";
         }
 
         var modal = document.getElementById("visorModal");
