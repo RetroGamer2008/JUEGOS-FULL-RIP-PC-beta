@@ -19,7 +19,7 @@
             cursor: url('https://cur.cursors-4u.net/windows/win-2/win22.cur'), auto !important;
         }
         
-        a, .menu-btn, .submenu-btn, .boton-descarga-mu, .boton-descarga-rs, button, input, .portada {
+        a, .menu-btn, .submenu-btn, .boton-descarga-mu, .boton-descarga-rs, .boton-jugar-web, button, input, .portada {
             cursor: url('https://cur.cursors-4u.net/windows/win-2/win23.cur'), pointer !important;
         }
         
@@ -148,6 +148,16 @@
             text-decoration: none;
             display: inline-block;
         }
+        .boton-jugar-web {
+            background: linear-gradient(to bottom, #00cc00 0%, #006600 100%);
+            color: #FFFFFF; 
+            font-weight: bold; 
+            border: 2px outset #00ff00; 
+            padding: 5px 12px; 
+            font-family: Tahoma;
+            text-decoration: none;
+            display: inline-block;
+        }
         
         .user-card {
             background-color: #002200;
@@ -252,7 +262,6 @@
         }
         .cerrar-modal:hover { color: #FFFF00; border-color: #FFFF00; }
         
-        /* VENTANA MODAL DE DESCARGA PERFECTAMENTE CENTRADA */
         .modal-descarga {
             display: none;
             position: fixed;
@@ -349,6 +358,9 @@
             </div>
 
             <a href="#" class="menu-btn" onclick="cambiarSeccion('error'); return false;">[ JUEGOS HACKEADOS ]</a>
+            
+            <a href="#" class="menu-btn" onclick="cambiarSeccion('juegosweb'); return false;" style="color: #00FF66;">[ JUEGOS WEB ]</a>
+
             <a href="#" class="menu-btn" onclick="cambiarSeccion('creditos'); return false;">[ CRÉDITOS ]</a>
             <a href="#" class="menu-btn" onclick="cambiarSeccion('error'); return false;">[ FORO DESC ]</a>
 
@@ -366,7 +378,7 @@
                 <div style="width: 320px; height: 22px; border: 2px solid #00FF00; margin: 25px auto; background: #000; text-align: left; padding: 2px; box-shadow: 0 0 10px #00FF00;">
                     <div id="barra-progreso" style="width: 0%; height: 100%; background: #00FF00; transition: width 1.8s steps(18, end);"></div>
                 </div>
-                <p id="texto-estado" style="color: #888888; font-size: 11px;">Descargando paquetes de Megaupload y Rapidshare...</p>
+                <p id="texto-estado" style="color: #888888; font-size: 11px;">Descargando paquetes...</p>
             </div>
 
             <div id="seccion-inicio" style="display: block;">
@@ -414,6 +426,118 @@
                 
                 <div style="text-align: center; margin-top: 25px;">
                     <a href="#" class="boton-descarga-mu" onclick="cambiarSeccion('juegos'); return false;" style="font-size: 15px; padding: 8px 20px;">&gt;&gt; ENTRAR A VER LA LISTA DE JUEGOS &lt;&lt;</a>
+                </div>
+            </div>
+
+            <!-- SECCIÓN JUEGOS WEB (LISTA DE JUEGOS DISPONIBLES) -->
+            <div id="seccion-juegosweb" style="display: none;">
+                <div align="center">
+                    <h1 style="color: #00FF66; font-family: 'Impact', sans-serif; font-size: 26px; margin: 0;">
+                        [*** ZONA DE JUEGOS WEB EN LÍNEA (SINGLEPLAYER) ***]
+                    </h1>
+                    <p style="color: #FFFF00; font-size: 12px; margin: 5px 0;"><b>[¡Juega directamente desde el navegador con emulador integrado!]</b></p>
+                </div>
+
+                <div class="user-card" style="font-family: 'Courier New', monospace; font-size: 11px;">
+                    <table width="100%">
+                        <tr>
+                            <td width="30"><img src="https://via.placeholder.com/20x20/00FF00/000000?text=+" border="1" /></td>
+                            <td>
+                                Aporte por: <span style="color: #00FFFF;">Seedf2001xx</span> & <span style="color: #00FFFF;">_ju4nk_</span> &nbsp;&nbsp; 
+                                <img src="https://via.placeholder.com/12x12/00FF00/000000?text=ON" /> Colaborador online
+                            </td>
+                            <td align="right">
+                                <img src="https://via.placeholder.com/12x12/00FF00/000000?text=O" /> <span style="color: #00FF00;">Status</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: 4px;">
+                                Estado: <span style="color: #00FFFF;">Servidor Activo</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div align="center">
+                    <hr size="1" color="#00FF00" />
+                </div>
+
+                <!-- LISTA DE SELECCIÓN DE JUEGOS WEB (Portada actualizada) -->
+                <div id="lista-juegos-web-items">
+                    <table class="juego-tabla" cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td width="150" align="center" valign="top">
+                                <img src="379 sin título_20260820205732.png" alt="Slendytubbies 2D Beta" class="portada" onclick="abrirModal(this.src)" title="Haz click para ver la imagen completa" />
+                                <br />
+                                <span class="blink">!!Spooky!!</span>
+                            </td>
+                            <td class="descripcion">
+                                <h3 style="color: #FFFF00; margin-top: 0;">Slendytubbies 2D Beta OFFICIAL</h3>
+                                <p>Versión adaptada exclusivamente para la web de este clásico juego de terror. Recolecta las Tubby Custard por el mapa en la oscuridad sin ser atrapado por los teletubbies. Modo individual (Singleplayer).</p>
+                                <p><b>Plataforma:</b> HTML5 / WebGL Singleplayer<br />
+                                <b>Requisitos:</b> Ninguno (Corre directo en el navegador)</p>
+                                
+                                <a href="#" class="boton-jugar-web" onclick="iniciarEmuladorWeb('Slendytubbies 2D Beta'); return false;">JUGAR EN LA WEB</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" class="boton-descarga-mu" onclick="cambiarSeccion('inicio'); return false;" style="font-size: 14px; padding: 6px 15px;">&lt;&lt; VOLVER AL INICIO &gt;&gt;</a>
+                </div>
+            </div>
+
+            <!-- SECCIÓN DE LA VENTANA ACTIVA DEL JUEGO WEB -->
+            <div id="seccion-juegoactivo" style="display: none;">
+                <div align="center">
+                    <h1 style="color: #00FF66; font-family: 'Impact', sans-serif; font-size: 26px; margin: 0;">
+                        [*** ZONA DE JUEGOS WEB EN LÍNEA (SINGLEPLAYER) ***]
+                    </h1>
+                    <p style="color: #FFFF00; font-size: 12px; margin: 5px 0;"><b>[¡Juega directamente desde el navegador con emulador integrado!]</b></p>
+                </div>
+
+                <div class="user-card" style="font-family: 'Courier New', monospace; font-size: 11px;">
+                    <table width="100%">
+                        <tr>
+                            <td width="30"><img src="https://via.placeholder.com/20x20/00FF00/000000?text=+" border="1" /></td>
+                            <td>
+                                Aporte por: <span style="color: #00FFFF;">Seedf2001xx</span> & <span style="color: #00FFFF;">_ju4nk_</span> &nbsp;&nbsp; 
+                                <img src="https://via.placeholder.com/12x12/00FF00/000000?text=ON" /> Colaborador online
+                            </td>
+                            <td align="right">
+                                <img src="https://via.placeholder.com/12x12/00FF00/000000?text=O" /> <span style="color: #00FF00;">Status</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: 4px;">
+                                Estado: <span style="color: #00FFFF;">Servidor Activo</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div align="center">
+                    <hr size="1" color="#00FF00" />
+                </div>
+
+                <!-- CONTENEDOR DE JUEGO ACTIVO -->
+                <div style="border: 2px solid #00FF00; background-color: #000; padding: 5px; margin-bottom: 15px; box-shadow: 0 0 10px #00FF00;">
+                    <div style="background-color: #001100; border: 1px solid #00FF00; padding: 5px 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace;">
+                        <span style="color: #FFFF00; font-weight: bold; font-size: 12px;">[ JUEGO ACTIVO: Slendytubbies 2D Beta ]</span>
+                        <a href="#" onclick="cambiarSeccion('juegosweb'); return false;" class="boton-descarga-rs" style="padding: 2px 8px; font-size: 11px; text-decoration: none;">[ X CERRAR JUEGO ]</a>
+                    </div>
+                    
+                    <div style="width: 100%; height: 360px; background: #D4D0C8; border: 2px inset #808080; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <div style="font-size: 48px; color: #666; margin-bottom: 10px;">📄</div>
+                        <div style="width: 32px; height: 38px; border: 1px dashed #666; display: flex; align-items: center; justify-content: center; background: #E0E0E0;">
+                            <span style="font-size: 16px; color: #333;">!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" class="boton-descarga-mu" onclick="cambiarSeccion('inicio'); return false;" style="font-size: 14px; padding: 6px 15px;">&lt;&lt; VOLVER AL INICIO &gt;&gt;</a>
                 </div>
             </div>
 
@@ -497,7 +621,6 @@
                     </tr>
                 </table>
 
-                <!-- MINECRAFT 1.7.3 ALPHA (UBICADO DEBAJO DE PLANTAS VS ZOMBIES) -->
                 <table class="juego-tabla-leak" cellspacing="0" cellpadding="5">
                     <tr>
                         <td width="150" align="center" valign="top">
@@ -705,13 +828,13 @@
         </div>
     </div>
 
-    <!-- MODAL PARA VER LA IMAGEN COMPLETA -->
+    <!-- MODAL DE VISUALIZACIÓN DE IMÁGENES -->
     <div id="visorModal" class="modal">
         <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
         <img class="modal-content" id="imgModal" />
     </div>
 
-    <!-- VENTANA INTERACTIVA DE DESCARGA -->
+    <!-- MODAL DE DESCARGA CLÁSICA -->
     <div id="modalDescarga" class="modal-descarga">
         <div class="ventana-dl-box">
             <div class="dl-cerrar-cruz" onclick="cerrarSistemaDescarga()">&times;</div>
@@ -746,6 +869,8 @@
         function cambiarSeccion(destino) {
             document.getElementById('seccion-inicio').style.display = 'none';
             document.getElementById('seccion-juegos').style.display = 'none';
+            document.getElementById('seccion-juegosweb').style.display = 'none';
+            document.getElementById('seccion-juegoactivo').style.display = 'none';
             document.getElementById('seccion-creditos').style.display = 'none';
             document.getElementById('seccion-error').style.display = 'none';
             
@@ -769,6 +894,11 @@
                 tiempoEspera = 1200;
                 textoVelocidad.innerText = 'Leyendo base de datos de usuarios...';
                 textoEstado.innerText = 'Cargando información del Staff...';
+            } else if (destino === 'juegosweb') {
+                barra.style.transition = 'width 1.5s steps(15, end)';
+                tiempoEspera = 1500;
+                textoVelocidad.innerText = 'Conectando al servidor web interactivo (Puerto 80)...';
+                textoEstado.innerText = 'Cargando listado de juegos web singleplayer...';
             } else {
                 barra.style.transition = 'width 1.8s steps(18, end)';
                 tiempoEspera = 1800;
@@ -786,12 +916,44 @@
                     document.getElementById('seccion-inicio').style.display = 'block';
                 } else if (destino === 'juegos') {
                     document.getElementById('seccion-juegos').style.display = 'block';
+                } else if (destino === 'juegosweb') {
+                    document.getElementById('seccion-juegosweb').style.display = 'block';
                 } else if (destino === 'creditos') {
                     document.getElementById('seccion-creditos').style.display = 'block';
                 } else if (destino === 'error') {
                     document.getElementById('seccion-error').style.display = 'block';
                 }
             }, tiempoEspera);
+        }
+
+        function iniciarEmuladorWeb(nombreJuego) {
+            document.getElementById('seccion-inicio').style.display = 'none';
+            document.getElementById('seccion-juegos').style.display = 'none';
+            document.getElementById('seccion-juegosweb').style.display = 'none';
+            document.getElementById('seccion-juegoactivo').style.display = 'none';
+            document.getElementById('seccion-creditos').style.display = 'none';
+            document.getElementById('seccion-error').style.display = 'none';
+
+            var loadingDiv = document.getElementById('seccion-carga');
+            var barra = document.getElementById('barra-progreso');
+            var textoVelocidad = document.getElementById('texto-velocidad');
+            var textoEstado = document.getElementById('texto-estado');
+
+            barra.style.width = '0%';
+            barra.style.transition = 'width 2s steps(20, end)';
+            loadingDiv.style.display = 'block';
+
+            textoVelocidad.innerText = 'Inicializando motor del emulador web...';
+            textoEstado.innerText = 'Cargando recursos de ' + nombreJuego + '...';
+
+            setTimeout(function() {
+                barra.style.width = '100%';
+            }, 50);
+
+            setTimeout(function() {
+                loadingDiv.style.display = 'none';
+                document.getElementById('seccion-juegoactivo').style.display = 'block';
+            }, 2000);
         }
 
         var modal = document.getElementById("visorModal");
@@ -812,7 +974,6 @@
             }
         }
 
-        // SISTEMA DE DESCARGA: 20 SEG A 1 MINUTO RANDOM Y AVANCE DE 5 EN 5
         var intervaloDescarga = null;
 
         function iniciarSistemaDescarga(nombreJuego, urlPortada) {
