@@ -189,6 +189,84 @@
             background: radial-gradient(circle at 50% 50%, transparent 60px, rgba(0, 0, 0, 0.96) 200px, #000000 100%);
         }
 
+        /* ======= NUEVA ZONA: LA CAJA Y CONTRASEÑA ======= */
+        #box-area {
+            position: absolute;
+            left: 15%; /* Ubicada a la izquierda de la cadena */
+            top: 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 12;
+        }
+        #box-container {
+            position: relative;
+            width: 180px;
+            height: 220px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+        .box-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        #box-inside {
+            background-image: url('385 sin título_20260822003225.jpg');
+            z-index: 1;
+        }
+        #the-key {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            z-index: 2;
+            cursor: grab;
+            display: none; /* Oculto hasta abrir */
+            filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.8));
+            user-select: none;
+        }
+        #the-key:active {
+            cursor: grabbing;
+        }
+        #box-door {
+            background-image: url('385 sin título_20260822003217.jpg');
+            z-index: 3;
+            transition: background-image 0.2s ease-in-out;
+        }
+        #password-wrapper {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        #pass-input {
+            background: #111;
+            color: #0F0;
+            border: 1px solid #0F0;
+            padding: 5px;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            width: 150px;
+            outline: none;
+        }
+        #pass-btn {
+            background: #220000;
+            color: #F00;
+            border: 1px solid #F00;
+            cursor: pointer;
+            font-family: "Courier New", monospace;
+            padding: 5px;
+            font-weight: bold;
+        }
+        #pass-btn:hover { background: #550000; }
+        /* =============================================== */
+
         #chain-wrapper {
             position: relative;
             width: 180px;
@@ -261,7 +339,22 @@
     </div>
 
     <div id="chain-section">
-        <div id="flashlight-overlay"></div> <!-- Nueva capa de linterna -->
+        <div id="flashlight-overlay"></div> <!-- Capa de linterna -->
+
+        <!-- CAJA Y CONTRASEÑA -->
+        <div id="box-area">
+            <div id="box-container">
+                <div id="box-inside" class="box-layer"></div>
+                <img id="the-key" src="385 sin título_20260822003228.png" draggable="false" alt="Llave">
+                <div id="box-door" class="box-layer"></div>
+            </div>
+            <div id="password-wrapper">
+                <input type="text" id="pass-input" placeholder="CONTRASEÑA" autocomplete="off">
+                <button id="pass-btn" onclick="verifyPassword()">INGRESAR</button>
+            </div>
+        </div>
+
+        <!-- CADENA -->
         <div id="chain-wrapper">
             <img id="chain-element" src="383 sin título_20260821183227.png" alt="383 sin título" onclick="applyImpulse()">
         </div>
@@ -287,7 +380,6 @@
             const backBtn = document.getElementById('backBtn');
             const secretBtn = document.getElementById('hidden-secret-btn');
 
-            // Duración original lenta restaurada (entre 30 y 40 segundos)
             const totalDuration = Math.random() * (40000 - 30000) + 30000; 
             const stepsCount = 12;
             const stepTime = totalDuration / stepsCount;
@@ -417,6 +509,14 @@
             }, 250);
         }
 
+        // ============================================
+        // AUDIOS PRECARGADOS
+        // ============================================
+        const audioClickCadena = new Audio('Cadena sonido.mp3');
+        const audioAbrirCaja = new Audio('OPPEN CAJA LLAVE.mp3');
+        const audioAgarrarLlave = new Audio('llave sound.mp3');
+        const audioCadenaLlave = new Audio('Cadena Se abre con la llave.mp3');
+
         /* LÓGICA DE FÍSICAS DE LA CADENA */
         let angle = 0;
         let angularVelocity = 0;
@@ -424,6 +524,10 @@
         let damping = 0.98;
 
         function applyImpulse() {
+            // Sonido al hacer clic en la cadena
+            audioClickCadena.currentTime = 0;
+            audioClickCadena.play().catch(e => console.log("Audio block:", e));
+
             angularVelocity += (Math.random() > 0.5 ? 0.18 : -0.18);
         }
 
@@ -445,7 +549,6 @@
         /* LÓGICA DEL EFECTO LINTERNA */
         document.addEventListener('mousemove', function(e) {
             const chainSec = document.getElementById('chain-section');
-            // Solo actualiza si estamos en la sección de la cadena
             if (chainSec.style.display === 'flex') {
                 const overlay = document.getElementById('flashlight-overlay');
                 const x = e.clientX;
@@ -453,6 +556,145 @@
                 overlay.style.background = `radial-gradient(circle at ${x}px ${y}px, transparent 60px, rgba(0, 0, 0, 0.96) 200px, #000000 100%)`;
             }
         });
+
+        // ============================================
+        // LÓGICA DE LA CAJA Y LA CONTRASEÑA
+        // ============================================
+        let isBoxOpen = false;
+        let isChainUnlocked = false;
+
+        function verifyPassword() {
+            const passInput = document.getElementById('pass-input');
+            const boxDoor = document.getElementById('box-door');
+            const theKey = document.getElementById('the-key');
+
+            if (passInput.value === 'G4m3s_F4r3v3r' && !isBoxOpen) {
+                isBoxOpen = true;
+                // Reproducir audio abrir caja
+                audioAbrirCaja.currentTime = 0;
+                audioAbrirCaja.play().catch(e => console.log(e));
+                
+                // Cambiar textura de la puerta a abierta
+                boxDoor.style.backgroundImage = "url('385 sin título_20260822003221.jpg')";
+                // Desactivar colisión con la puerta para poder tocar la llave
+                boxDoor.style.pointerEvents = 'none';
+                
+                // Mostrar la llave
+                theKey.style.display = 'block';
+
+                passInput.style.borderColor = '#00FF00';
+                passInput.disabled = true;
+                document.getElementById('pass-btn').disabled = true;
+            } else if (!isBoxOpen) {
+                // Efecto de error simple
+                passInput.style.borderColor = '#FF0000';
+                setTimeout(() => { passInput.style.borderColor = '#00FF00'; }, 600);
+            }
+        }
+
+        // ============================================
+        // LÓGICA ARRASTRE Y GRAVEDAD DE LA LLAVE
+        // ============================================
+        const theKey = document.getElementById('the-key');
+        let isDraggingKey = false;
+        let keyGravity = 0.6;
+        let keyVelY = 0;
+        let keyY = 0, keyX = 0;
+        let keyAnimationId;
+
+        theKey.addEventListener('mousedown', (e) => {
+            if (!isBoxOpen || isChainUnlocked) return;
+            isDraggingKey = true;
+            cancelAnimationFrame(keyAnimationId);
+            
+            // Audio al agarrar la llave
+            audioAgarrarLlave.currentTime = 0;
+            audioAgarrarLlave.play().catch(e => console.log(e));
+
+            // Cambiamos a position fixed para arrastrar libremente sobre toda la pantalla
+            if (theKey.style.position !== 'fixed') {
+                theKey.style.position = 'fixed';
+                theKey.style.transform = 'none'; // Quita el transform centrado
+                theKey.style.zIndex = '100';
+            }
+            
+            updateKeyPosition(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingKey) {
+                updateKeyPosition(e.clientX, e.clientY);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDraggingKey) {
+                isDraggingKey = false;
+                keyVelY = 0; // Se resetea la velocidad al soltar
+                keyGravityLoop(); // Iniciar caída
+            }
+        });
+
+        function updateKeyPosition(x, y) {
+            // Centrar el ratón sobre la llave
+            keyX = x - (theKey.clientWidth / 2);
+            keyY = y - (theKey.clientHeight / 2);
+            theKey.style.left = keyX + 'px';
+            theKey.style.top = keyY + 'px';
+        }
+
+        function keyGravityLoop() {
+            if (isDraggingKey || isChainUnlocked) return;
+
+            keyVelY += keyGravity;
+            keyY += keyVelY;
+            theKey.style.top = keyY + 'px';
+
+            // Comprobar colisión con la cadena
+            const chainEl = document.getElementById('chain-element');
+            const chainRect = chainEl.getBoundingClientRect();
+            const keyRect = theKey.getBoundingClientRect();
+
+            if (checkCollision(keyRect, chainRect)) {
+                // ¡Se abre la cadena con la llave!
+                isChainUnlocked = true;
+                audioCadenaLlave.currentTime = 0;
+                audioCadenaLlave.play().catch(e => console.log(e));
+                
+                // Efecto visual al abrir (puedes ajustarlo luego)
+                chainEl.style.filter = "drop-shadow(0 0 20px #00FF00)";
+                theKey.style.display = 'none'; // La llave se consume
+                return;
+            }
+
+            // Si la llave cae fuera de la pantalla, regresarla a la caja
+            if (keyY > window.innerHeight) {
+                resetKeyToBox();
+                return;
+            }
+
+            keyAnimationId = requestAnimationFrame(keyGravityLoop);
+        }
+
+        // Función de colisión simple entre dos rectángulos
+        function checkCollision(r1, r2) {
+            return !(r1.right < r2.left || 
+                     r1.left > r2.right || 
+                     r1.bottom < r2.top || 
+                     r1.top > r2.bottom);
+        }
+
+        function resetKeyToBox() {
+            cancelAnimationFrame(keyAnimationId);
+            // Devolverla a su estado original
+            theKey.style.position = 'absolute';
+            theKey.style.top = '50%';
+            theKey.style.left = '50%';
+            theKey.style.transform = 'translate(-50%, -50%)';
+            theKey.style.zIndex = '2';
+            keyVelY = 0;
+        }
+
     </script>
 
 </body>
