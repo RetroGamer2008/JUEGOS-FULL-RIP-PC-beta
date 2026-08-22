@@ -337,12 +337,12 @@
     <div id="chain-section">
         <div id="flashlight-overlay"></div> 
 
-        <!-- CAJA Y CONTRASEÑA (Usando etiquetas IMG directas) -->
+        <!-- CAJA Y CONTRASEÑA (Extensiones .png corregidas) -->
         <div id="box-area">
             <div id="box-container">
-                <img id="box-inside" src="385 sin título_20260822003225.jpg" draggable="false" alt="Interior Caja">
+                <img id="box-inside" src="385 sin título_20260822003225.png" draggable="false" alt="Interior Caja">
                 <img id="the-key" src="385 sin título_20260822003228.png" draggable="false" alt="Llave">
-                <img id="box-door" src="385 sin título_20260822003217.jpg" draggable="false" alt="Puerta Caja">
+                <img id="box-door" src="385 sin título_20260822003217.png" draggable="false" alt="Puerta Caja">
             </div>
             <div id="password-wrapper">
                 <input type="text" id="pass-input" placeholder="CONTRASEÑA" autocomplete="off">
@@ -567,9 +567,8 @@
                 audioAbrirCaja.currentTime = 0;
                 audioAbrirCaja.play().catch(e => console.log(e));
                 
-                // Cambia el src de la imagen directamente
-                boxDoor.src = "385 sin título_20260822003221.jpg";
-                // Desactiva los eventos en la puerta para que deje tocar la llave
+                // Cambia la textura a abierta (.png)
+                boxDoor.src = "385 sin título_20260822003221.png";
                 boxDoor.style.pointerEvents = 'none'; 
                 
                 theKey.style.display = 'block';
