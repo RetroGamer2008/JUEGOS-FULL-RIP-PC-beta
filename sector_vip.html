@@ -216,7 +216,7 @@
         
         #box-door { 
             z-index: 3; 
-            pointer-events: auto; /* Bloquea los clics hasta que se abra */
+            pointer-events: auto; /* Bloquea los clics hacia la llave hasta que se abra */
         }
         
         #the-key {
@@ -227,8 +227,9 @@
             width: 90px;
             z-index: 2;
             cursor: grab;
-            display: none; /* Oculto hasta abrir la puerta */
-            filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.8));
+            display: block; /* Siempre visible */
+            pointer-events: none; /* Bloqueada al inicio */
+            filter: drop-shadow(0 0 8px rgba(0, 255, 0, 0.6)); /* Brillo para que destaque al fondo */
             user-select: none;
         }
         #the-key:active {
@@ -337,7 +338,7 @@
     <div id="chain-section">
         <div id="flashlight-overlay"></div> 
 
-        <!-- CAJA Y CONTRASEÑA (Extensiones .png corregidas) -->
+        <!-- CAJA Y CONTRASEÑA -->
         <div id="box-area">
             <div id="box-container">
                 <img id="box-inside" src="385 sin título_20260822003225.png" draggable="false" alt="Interior Caja">
@@ -352,7 +353,7 @@
 
         <!-- CADENA -->
         <div id="chain-wrapper">
-            <img id="chain-element" src="383 sin título_20260821183227.png" alt="383 sin título" onclick="applyImpulse()" draggable="false">
+            <img id="chain-element" src="383 sin título_20260821183227.png" alt="Cadena" onclick="applyImpulse()" draggable="false">
         </div>
         <button id="run-button" onclick="returnToMainScreen()">correr</button>
     </div>
@@ -564,14 +565,17 @@
 
             if (passInput.value === 'G4m3s_F4r3v3r' && !isBoxOpen) {
                 isBoxOpen = true;
+                
+                // Audio al abrir la caja
                 audioAbrirCaja.currentTime = 0;
                 audioAbrirCaja.play().catch(e => console.log(e));
                 
                 // Cambia la textura a abierta (.png)
                 boxDoor.src = "385 sin título_20260822003221.png";
-                boxDoor.style.pointerEvents = 'none'; 
                 
-                theKey.style.display = 'block';
+                // Permite interactuar con la llave
+                boxDoor.style.pointerEvents = 'none'; 
+                theKey.style.pointerEvents = 'auto'; 
 
                 passInput.style.borderColor = '#00FF00';
                 passInput.disabled = true;
@@ -597,6 +601,7 @@
             isDraggingKey = true;
             cancelAnimationFrame(keyAnimationId);
             
+            // Audio al agarrar la llave
             audioAgarrarLlave.currentTime = 0;
             audioAgarrarLlave.play().catch(e => console.log(e));
 
@@ -641,8 +646,11 @@
             const chainRect = chainEl.getBoundingClientRect();
             const keyRect = theKey.getBoundingClientRect();
 
+            // Detecta colisión entre la llave y la cadena
             if (checkCollision(keyRect, chainRect)) {
                 isChainUnlocked = true;
+                
+                // Audio cuando interactúan cadena y llave
                 audioCadenaLlave.currentTime = 0;
                 audioCadenaLlave.play().catch(e => console.log(e));
                 
