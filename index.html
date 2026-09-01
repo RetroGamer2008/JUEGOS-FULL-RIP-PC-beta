@@ -989,7 +989,10 @@
 
         function verificarPassword() {
             var pass = document.getElementById('pass-input').value;
-            if (pass === 'S0n1cr4ck_Tub1e_25' || pass === '68113526') {
+            // Las contraseñas se comparan usando sus hashes Base64:
+            // "S0n1cr4ck_Tub1e_25" -> UzBuMWNyNGNrX1R1YjFlXzI1
+            // "68113526"           -> NjgxMTM1MjY=
+            if (btoa(pass) === 'UzBuMWNyNGNrX1R1YjFlXzI1' || btoa(pass) === 'NjgxMTM1MjY=') {
                 // Redirige al usuario a un nuevo archivo HTML
                 window.location.href = "sector_vip.html"; 
             } else {
@@ -1072,6 +1075,25 @@
             if (intervaloDescarga) clearInterval(intervaloDescarga);
             document.getElementById("modalDescarga").style.display = "none";
         }
+
+        // ============================================
+        // SISTEMA ANTI-TRAMPAS PARA LA PÁGINA PRINCIPAL
+        // ============================================
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
