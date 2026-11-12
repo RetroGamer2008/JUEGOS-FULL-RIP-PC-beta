@@ -307,6 +307,69 @@
             animation: strict-shake 0.08s infinite;
         }
 
+        /* ======= BOTÓN SECRETO (solo se ve con la linterna) ======= */
+        #secret-minigame {
+            position: absolute;
+            right: 12%;
+            bottom: 16%;
+            z-index: 11; /* debajo de la linterna: solo se ve al iluminarlo */
+            color: #3a0000;
+            font-size: 18px;
+            text-decoration: none;
+            cursor: inherit;
+            user-select: none;
+        }
+        #secret-minigame:hover { color: #770000; }
+
+        /* ======= DESBLOQUEO, CONTADOR Y BOTÓN ROJO ======= */
+        #unlock-panel {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 25; /* encima de la linterna */
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .bar-box {
+            width: 350px;
+            height: 25px;
+            border: 2px solid #FF0000;
+            background: #000000;
+            padding: 2px;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px #FF0000;
+        }
+        #unlock-bar { width: 0%; height: 100%; background-color: #FF0000; }
+        #unlock-text { color: #FF0000; font-size: 11px; margin-top: 10px; }
+        #countdown { display: none; flex-direction: column; align-items: center; gap: 6px; }
+        #countdown-label { color: #FF0000; font-size: 12px; letter-spacing: 3px; }
+        #countdown-time {
+            color: #FF0000;
+            font-size: 56px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-shadow: 0 0 12px #FF0000, 2px 2px #330000;
+        }
+        #countdown-days { color: #880000; font-size: 13px; letter-spacing: 2px; }
+        #final-btn {
+            display: none;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #ff5c5c, #cc0000 55%, #5a0000);
+            border: 4px solid #2a0000;
+            box-shadow: 0 0 25px #FF0000, inset 0 -8px 12px rgba(0, 0, 0, 0.5);
+            animation: pulse-red 1.2s steps(12, end) infinite;
+            cursor: pointer;
+        }
+        #final-btn:active { transform: translateY(3px); }
+        @keyframes pulse-red {
+            50% { box-shadow: 0 0 50px #FF0000, inset 0 -8px 12px rgba(0, 0, 0, 0.5); }
+        }
+
         .blink {
             animation: blinker 1s steps(12, end) infinite;
         }
@@ -356,6 +419,23 @@
             <img id="chain-element" src="383 sin título_20260821183227.png" alt="Cadena" onclick="applyImpulse()" draggable="false">
         </div>
         <button id="run-button" onclick="returnToMainScreen()">correr</button>
+
+        <!-- BOTÓN SECRETO: lleva al minijuego (solo se ve al alumbrarlo con la linterna) -->
+        <a id="secret-minigame" href="https://retrogamer2008.github.io/minigame/">𓂀</a>
+
+        <!-- CARGA + CONTADOR + BOTÓN ROJO (aparece al hacer clic en el candado con la llave puesta) -->
+        <div id="unlock-panel">
+            <div id="unlock-loader">
+                <div class="bar-box"><div id="unlock-bar"></div></div>
+                <div id="unlock-text" class="blink">[ ABRIENDO CANDADO... ]</div>
+            </div>
+            <div id="countdown">
+                <div id="countdown-label">[ TIEMPO RESTANTE ]</div>
+                <div id="countdown-time">96:00:00</div>
+                <div id="countdown-days">4 DÍAS 0 HORAS</div>
+            </div>
+            <a id="final-btn" href="https://www.youtube.com/@SoniArchiv" title=""></a>
+        </div>
     </div>
 
     <script>
@@ -521,6 +601,8 @@
         let damping = 0.98;
 
         function applyImpulse() {
+            // Si la llave ya está puesta, el clic abre el candado
+            if (isChainUnlocked) { iniciarDesbloqueo(); return; }
             audioClickCadena.currentTime = 0;
             audioClickCadena.play().catch(e => console.log("Audio block:", e));
             angularVelocity += (Math.random() > 0.5 ? 0.18 : -0.18);
@@ -682,6 +764,95 @@
             theKey.style.transform = 'translate(-50%, -50%)';
             theKey.style.zIndex = '2';
             keyVelY = 0;
+        }
+
+        // ============================================
+        // DESBLOQUEO, CONTADOR DE 96 HORAS Y BOTÓN ROJO
+        // ============================================
+        const DURACION_MS = 96 * 60 * 60 * 1000; // 96 horas = 4 días
+        // Si quieres que el contador termine en la MISMA fecha para todos los jugadores,
+        // pon la fecha aquí, por ejemplo: '2026-11-16T00:00:00-04:00'. Si lo dejas en null,
+        // cada jugador tiene sus propias 96 horas desde que abre el candado.
+        const FECHA_OBJETIVO = null;
+        let candadoAbierto = false;
+
+        // La hora de término se guarda en el navegador: recargar la página no reinicia el contador
+        function obtenerFin() {
+            if (FECHA_OBJETIVO) return new Date(FECHA_OBJETIVO).getTime();
+            let fin = null;
+            try { fin = parseInt(localStorage.getItem('candado_fin'), 10); } catch (e) {}
+            if (!fin) {
+                fin = Date.now() + DURACION_MS;
+                try { localStorage.setItem('candado_fin', String(fin)); } catch (e) {}
+            }
+            return fin;
+        }
+
+        function iniciarDesbloqueo() {
+            if (candadoAbierto) return;
+            candadoAbierto = true;
+
+            const wrap = document.getElementById('chain-wrapper');
+            wrap.classList.add('shake-effect');
+
+            // La cadena tiembla y cae
+            setTimeout(() => {
+                wrap.classList.remove('shake-effect');
+                wrap.style.transition = 'transform 2s steps(12, end), opacity 2s steps(12, end)';
+                wrap.style.transform = 'translateY(100vh)';
+                wrap.style.opacity = '0';
+            }, 1000);
+
+            // Barra de carga
+            setTimeout(() => {
+                wrap.style.visibility = 'hidden';
+                document.getElementById('unlock-panel').style.display = 'flex';
+                const bar = document.getElementById('unlock-bar');
+                const texto = document.getElementById('unlock-text');
+                let paso = 0;
+                const carga = setInterval(() => {
+                    paso++;
+                    bar.style.width = (paso / 12 * 100) + '%';
+                    if (paso >= 12) {
+                        clearInterval(carga);
+                        texto.innerHTML = '[ ACCESO CONCEDIDO ]';
+                        setTimeout(mostrarContador, 1200);
+                    }
+                }, 700);
+            }, 3200);
+        }
+
+        function mostrarContador() {
+            const fin = obtenerFin();
+            const countdown = document.getElementById('countdown');
+            const tiempo = document.getElementById('countdown-time');
+            const dias = document.getElementById('countdown-days');
+            const botonRojo = document.getElementById('final-btn');
+
+            document.getElementById('unlock-loader').style.display = 'none';
+            countdown.style.display = 'flex';
+
+            const pad = n => String(n).padStart(2, '0');
+            let reloj = null;
+
+            function tick() {
+                const restante = fin - Date.now();
+                if (restante <= 0) {
+                    if (reloj) clearInterval(reloj);
+                    countdown.style.display = 'none';
+                    botonRojo.style.display = 'block';
+                    return;
+                }
+                const totalSeg = Math.floor(restante / 1000);
+                const h = Math.floor(totalSeg / 3600);
+                const m = Math.floor((totalSeg % 3600) / 60);
+                const s = totalSeg % 60;
+                tiempo.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+                dias.textContent = `${Math.floor(h / 24)} DÍAS ${h % 24} HORAS`;
+            }
+
+            tick();
+            reloj = setInterval(tick, 1000);
         }
 
     </script>
