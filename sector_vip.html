@@ -770,23 +770,11 @@
         // DESBLOQUEO, CONTADOR DE 96 HORAS Y BOTÓN ROJO
         // ============================================
         const DURACION_MS = 96 * 60 * 60 * 1000; // 96 horas = 4 días
-        // Si quieres que el contador termine en la MISMA fecha para todos los jugadores,
-        // pon la fecha aquí, por ejemplo: '2026-11-16T00:00:00-04:00'. Si lo dejas en null,
-        // cada jugador tiene sus propias 96 horas desde que abre el candado.
-        const FECHA_OBJETIVO = null;
+        // El contador empieza a correr en esta fecha (hora de Chile, UTC-4) y es igual para todos los jugadores.
+        // Termina 96 horas después: el 1 de diciembre de 2026 a las 00:00.
+        const FECHA_INICIO = new Date('2026-11-27T00:00:00-04:00').getTime();
+        const FECHA_FIN = FECHA_INICIO + DURACION_MS;
         let candadoAbierto = false;
-
-        // La hora de término se guarda en el navegador: recargar la página no reinicia el contador
-        function obtenerFin() {
-            if (FECHA_OBJETIVO) return new Date(FECHA_OBJETIVO).getTime();
-            let fin = null;
-            try { fin = parseInt(localStorage.getItem('candado_fin'), 10); } catch (e) {}
-            if (!fin) {
-                fin = Date.now() + DURACION_MS;
-                try { localStorage.setItem('candado_fin', String(fin)); } catch (e) {}
-            }
-            return fin;
-        }
 
         function iniciarDesbloqueo() {
             if (candadoAbierto) return;
@@ -823,7 +811,6 @@
         }
 
         function mostrarContador() {
-            const fin = obtenerFin();
             const countdown = document.getElementById('countdown');
             const tiempo = document.getElementById('countdown-time');
             const dias = document.getElementById('countdown-days');
@@ -835,8 +822,19 @@
             const pad = n => String(n).padStart(2, '0');
             let reloj = null;
 
+            const etiqueta = document.getElementById('countdown-label');
+
             function tick() {
-                const restante = fin - Date.now();
+                const ahora = Date.now();
+                // Antes del 27 de noviembre el contador espera quieto en 96:00:00
+                if (ahora < FECHA_INICIO) {
+                    etiqueta.textContent = '[ EN ESPERA ]';
+                    tiempo.textContent = '96:00:00';
+                    dias.textContent = '4 DÍAS 0 HORAS';
+                    return;
+                }
+                etiqueta.textContent = '[ TIEMPO RESTANTE ]';
+                const restante = FECHA_FIN - ahora;
                 if (restante <= 0) {
                     if (reloj) clearInterval(reloj);
                     countdown.style.display = 'none';
